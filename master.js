@@ -53,7 +53,7 @@ function makeRequest(name, suffix) {
 					var attname = "/"+suffix;
 					var mimetype = mime.lookup(attname);
 					console.log("mimetype = " + mimetype);
-					db.attachment.insert(name, attname, body, 'image/x-icon')
+					db.attachment.insert(name, attname, body, mimetype)
 					console.log(name+suffix + ' request success');
 				} else {
 					j++;
@@ -97,7 +97,7 @@ function checkAvailable(name, callback) {
 	});
 }
 
-checkAvailable('pendletonpsych.com', util.puts);
+checkAvailable('madameolivia.com', util.puts);
 
 
 /*

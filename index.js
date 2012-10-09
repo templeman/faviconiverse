@@ -11,7 +11,7 @@ var per_page = 10
 
 app.use(express.favicon());
 app.get("/", function(request, response) {
-	db.attachment.get('pendletonpsych.com', 'pendleton6.jpg').pipe(response);
+	db.attachment.get('madameolivia.com', 'favicon.ico').pipe(response);
 //	db.list(params, function(err, body, headers) {
 //		console.log(body);
 	//});
