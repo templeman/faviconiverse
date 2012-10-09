@@ -53,7 +53,7 @@ function makeRequest(name, suffix) {
 					var attname = "/"+suffix;
 					var mimetype = mime.lookup(attname);
 					console.log("mimetype = " + mimetype);
-					db.attachment.insert(name, attname, body, 'image/vnd.microsoft.icon')
+					db.attachment.insert(name, attname, body, 'image/x-icon')
 					console.log(name+suffix + ' request success');
 				} else {
 					j++;
@@ -97,7 +97,10 @@ function checkAvailable(name, callback) {
 	});
 }
 
+checkAvailable('pendletonpsych.com', util.puts);
 
+
+/*
 var count = 0;
 var i = 0;
 function words(length, prefix) {
@@ -113,3 +116,4 @@ function words(length, prefix) {
 
 
 words(2, '');
+*/
