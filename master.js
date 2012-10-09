@@ -5,7 +5,7 @@ var dns = require("dns")
 	, cheerio = require('cheerio');
 
 
-var db_name = "test";
+var db_name = process.env.CLOUDANT_URL;
 var db = nano.use(db_name);
 // unreserved uri characters = ALPHA / DIGIT / "-" / "." / "_" / "~"
 var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -48,6 +48,7 @@ function makeRequest(name, suffix) {
 				, uri: "http://"+name+suffix
 			}, function(error, response, body) {
 				if(!error && response.statusCode == 200) {
+					db.attachment.insert(name, "favicon.ico", null, "image/x-icon")
 					console.log(name+suffix + ' request success');
 				} else {
 					j++;
@@ -68,7 +69,6 @@ function makeRequest(name, suffix) {
 function checkAvailable(name, callback) {
 	dns.resolve4(name, function (err, addresses) {
 		if(err) {
-			console.log(process.env.CLOUDANT_URL);
 			console.log(name + ' could not resolve : ' + err);
 		} else {
 			makeRequest(name);
