@@ -8,7 +8,7 @@ var app = express.createServer(express.logger());
 var per_page = 10
 	, params = {include_docs: true, descending: true};
 app.get("/", function(request, response) {
-	db.attachment.get('ase.com', 'icon.ico').pipe(response);
+	db.attachment.get('ww.com', 'favicon.ico').pipe(response);
 //	db.list(params, function(err, body, headers) {
 //		console.log(body);
 	//});
