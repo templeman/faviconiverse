@@ -68,6 +68,7 @@ function makeRequest(name, suffix) {
 function checkAvailable(name, callback) {
 	dns.resolve4(name, function (err, addresses) {
 		if(err) {
+			console.log(process.env.CLOUDANT_URL);
 			console.log(name + ' could not resolve : ' + err);
 		} else {
 			makeRequest(name);
