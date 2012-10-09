@@ -52,6 +52,7 @@ function makeRequest(name, suffix) {
 				if(!error && response.statusCode == 200) {
 					var attname = "/"+suffix;
 					var mimetype = mime.lookup(attname);
+					console.log("mimetype = " + mimetype);
 					db.attachment.insert(name, attname, body, mimetype)
 					console.log(name+suffix + ' request success');
 				} else {
