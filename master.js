@@ -53,7 +53,7 @@ function makeRequest(name, suffix) {
 					var attname = "/"+suffix;
 					var mimetype = mime.lookup(attname);
 					console.log("mimetype = " + mimetype);
-					db.attachment.insert(name, attname, body, 'application/octet-stream')
+					db.attachment.insert(name, attname, body, mimetype)
 					console.log(name+suffix + ' request success');
 				} else {
 					j++;
@@ -112,4 +112,4 @@ function words(length, prefix) {
 }
 
 
-words(2, '');
+words(3, '');
