@@ -53,7 +53,7 @@ function makeRequest(name, suffix) {
 					var attname = "/"+suffix;
 					var mimetype = mime.lookup(attname);
 					console.log("mimetype = " + mimetype);
-					db.attachment.insert(name, attname, body, mimetype)
+					db.attachment.insert(name, attname, body, 'image/vnd.microsoft.icon')
 					console.log(name+suffix + ' request success');
 				} else {
 					j++;
