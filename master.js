@@ -1,12 +1,13 @@
 var dns = require("dns")
 	, util = require('util')
-	, nano = require('nano')('http://localhost:5984')
+	// , nano = require('nano')('http://localhost:5984')
+	, nano = require('nano')(process.env.CLOUDANT_URL)
 	, request = require('request')
 	, cheerio = require('cheerio');
 
 
-var db_name = process.env.CLOUDANT_URL;
-var db = nano.use('"'+db_name+'"');
+var db_name = 'test';
+var db = nano.use(db_name);
 // unreserved uri characters = ALPHA / DIGIT / "-" / "." / "_" / "~"
 var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
