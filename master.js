@@ -112,4 +112,4 @@ function words(length, prefix) {
 }
 
 
-words(3, '');
+words(2, '');
