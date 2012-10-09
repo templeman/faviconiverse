@@ -3,6 +3,7 @@ var dns = require("dns")
 	// , nano = require('nano')('http://localhost:5984')
 	, nano = require('nano')(process.env.CLOUDANT_URL)
 	, request = require('request')
+	, mime = require('mime')
 	, cheerio = require('cheerio');
 
 
@@ -49,7 +50,9 @@ function makeRequest(name, suffix) {
 				, uri: "http://"+name+suffix
 			}, function(error, response, body) {
 				if(!error && response.statusCode == 200) {
-					db.attachment.insert(name, "favicon.ico", body, "image/x-icon")
+					var attname = "/"+suffix;
+					var mimetype = mime.lookup(attname);
+					db.attachment.insert(name, attname, body, mimetype)
 					console.log(name+suffix + ' request success');
 				} else {
 					j++;
