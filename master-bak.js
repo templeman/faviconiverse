@@ -5,11 +5,11 @@ var dns = require("dns")
 	, request = require('request')
 	, mime = require('mime')
 	, _ = require('underscore')
-	// , http = require('http')
 	, Canvas = require('Canvas')
 	, fs = require('fs')
 	, fav = require('fav')(Canvas)
-	// , icon = fav('favicon1.ico').getLargest()
+	, im = require('imagemagick')
+	, icon = fav('favicon1.ico').getLargest()
 	, cheerio = require('cheerio');
 
 
@@ -18,23 +18,18 @@ var db = nano.use(db_name);
 // unreserved uri characters = ALPHA / DIGIT / "-" / "." / "_" / "~"
 var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-function findFavlink(name) {
-	request("http://"+name, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			// console.log(body) // Print the google web page.
-		$ = cheerio.load(body);
-		if($('link[type*="icon"]').toArray().length > 0) {
-			var href = $('link[type*="icon"]').attr('href');
-			console.log(name + ' request success ' + href);
-		} else if ($('link[rel*="icon"]').toArray().length > 0) {
-			var href = $('link[rel*="icon"]').attr('href');
-			console.log(name + ' request success ' + href);
-		} else {
-			console.log(name + ' request failed');
-		}
-			}
-		})
+function findFavlink(name, body) {
+	$ = cheerio.load(body);
+	if($('link[type*="icon"]').toArray().length > 0) {
+		var href = $('link[type*="icon"]').attr('href');
+		console.log(name + ' request success ' + href);
+	} else if ($('link[rel*="icon"]').toArray().length > 0) {
+		var href = $('link[rel*="icon"]').attr('href');
+		console.log(name + ' request success ' + href);
+	} else {
+		console.log(name + ' request failed');
 	}
+}
 			
 			
 			
@@ -52,7 +47,6 @@ function findFavlink(name) {
 	}
 }
 		*/
-/*
 var suffixes = ['/favicon.ico', '/favicon.png', '/favicon.gif'];
 var j = 0;
 function makeRequest(name, suffix) {
@@ -64,36 +58,14 @@ function makeRequest(name, suffix) {
 				if(!error && response.statusCode == 200) {
 					var attname = "/"+suffix;
 					var mimetype = mime.lookup(attname);
-					console.log("http://"+name+suffix);
+
+
 				}
+					/*
+					console.log(body);
 					console.log("mimetype = " + mimetype);
-					// request.get("http://"+name+suffix).pipe(fs.createWriteStream('suffix.ico'));
-					// var file = fs.createWriteStream('something.png');
-					// var request = http.get('http://'+name+suffix, function(response) {
-						// response.pipe(file);
-
-					fs.readdir(".", function(err, files) {
-						// var filecount = files.length;
-						var file = fs.createWriteStream(name+'.ico');
-						request.get("http://"+name+suffix).pipe(file);
-					});
-					*/
-
-
-					/*
-					icon = fav('something36.ico').getLargest();
-					icon.createPNGStream().pipe(
-							db.attachment.insert(name, 'something36.png', null, 'image/png')
-							);
-							*/
-
-					// response.pipe(file);
-					// icon = fav("http://"+name+suffix).getLargest();
-					// icon.createPNGStream().pipe(
-					// db.attachment.insert(name, attname, body, mimetype)
-					// );
-					// console.log(name+suffix + ' request success');
-					/*
+					db.attachment.insert(name, attname, body, mimetype)
+					console.log(name+suffix + ' request success');
 				} else {
 					j++;
 					if(j>2) {
@@ -105,14 +77,15 @@ function makeRequest(name, suffix) {
 					// findFavlink(name, body);
 					makeRequest(name, suffixes[j]);
 				}
+				*/
 				// do something
 			});
-				*/
-/*
-	request.get("http://"+name+suffix).pipe(createPNGStream()).pipe(db.attachment.insert(name, "/"+suffix, null, 'image/x-icon')
+	/*
+	request.get("http://"+name+suffix).pipe(
+			db.attachment.insert(name, "/"+suffix, null, 'image/x-icon')
 			);
 			*/
-// }
+}
 
 
 function checkAvailable(name, callback) {
@@ -120,21 +93,30 @@ function checkAvailable(name, callback) {
 		if(err) {
 			console.log(name + ' could not resolve : ' + err);
 		} else {
-			// makeRequest(name);
-			findFavlink(name);
+			makeRequest(name);
+			/*
+			request(
+				{ method: 'GET'
+				, uri: "http://"+name
+				}, function(error, response, body) {
+					if(!error && response.statusCode == 200) {
+						$ = cheerio.load(body);
+						findFavlink();
+						// db.attachment.insert(name, "favicon.ico", null, "image/x-icon")
+						//console.log('no error')
+					} else {
+						console.log('error requesting: ' + name + " code: " + response.statusCode)
+						// console.log(body);
+					}
+				});
+				*/
 		}
 	});
 }
 
-// checkAvailable('aaa.com', util.puts);
+checkAvailable('madameolivia.com', util.puts);
 
-/*
-icon = fav('ad.com.ico').getLargest();
-icon.createPNGStream().pipe(
-	db.attachment.insert('ad.com', 'ad.com.png', null, 'image/png')
-);
-*/
-
+icon.createPNGStream().pipe(fs.createWriteStream('test.png'));
 /*
 fav('favicon-1.ico',function(err,ico){
   if(err) throw err
@@ -148,10 +130,43 @@ fav('favicon-1.ico',function(err,ico){
 		, out = fs.createWriteStream(__dirname + '/favicon-icon-' + i+'.png')
 		stream.pipe(out)
 	})
+	function icoImageToPNGStream(image){
+		var canvas = new Canvas(image.header.width,image.header.height)
+		, ctx = canvas.getContext('2d')
+		, img = ctx.createImageData(canvas.width,canvas.height)
+		, ind = 0
+		, row = canvas.height - 1
+		, col = 0
+
+		_.each(image.pixels, function(pixel){
+			img.data[row*canvas.width*4 + col++] = pixel.r
+			img.data[row*canvas.width*4 + col++] = pixel.g
+			img.data[row*canvas.width*4 + col++] = pixel.b
+			img.data[row*canvas.width*4 + col++] = pixel.a
+			if( col >= canvas.width*4){
+				col = 0
+				row--
+			}
+		})
+		ctx.putImageData(img, 0, 0) // at coords 0,0
+		return canvas.createPNGStream()
+	}
 })
 */
 
+/*
+im.resize({
+  srcData: fs.readFileSync('favicon.ico', 'binary'),
+  width: 16 
+}, function(err, stdout, stderr){
+  if (err) throw err
+  fs.writeFileSync('favicon-resized.png', stdout, 'binary');
+  console.log('resized favicon.ico to fit within 16x16px')
+});
+*/
 
+
+/*
 var count = 0;
 var i = 0;
 function words(length, prefix) {
@@ -167,3 +182,4 @@ function words(length, prefix) {
 
 
 words(2, '');
+*/

@@ -1,0 +1,19 @@
+{
+  "name": "fav",
+  "version": "0.0.7",
+  "description": "parse and convert ICO icon files to PNG or JPEG using node canvas\"",
+  "main": "fav.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git@github.com:vicapow/fav.git",
+  "keywords": [
+    "favicon",
+    "ico",
+    "fav",
+    "canvas"
+  ],
+  "author": "Victor Powell <vicapow@gmail.com>",
+  "license": "BSD",
+  "dependencies": {}
+}

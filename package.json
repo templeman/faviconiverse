@@ -6,7 +6,10 @@
     "nano": "3.3.2",
     "request": "2.11.4",
     "cheerio": "0.10.1",
-		"mime": "1.2.7"
+		"mime": "1.2.7",
+		"canvas": "0.13.1",
+		"jParser": "~1.0.2",
+		"underscore": "~1.4.1"
   },
   "engines": {
     "node": "0.8.x",

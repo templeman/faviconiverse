@@ -1,2 +1,6 @@
 # Node #
 node_modules/
+
+pkgconfig.tgz
+pkg-config-0.23/
+*.ico

@@ -1,6 +1,6 @@
 var express = require('express')
-	//, nano = require('nano')('http://localhost:5984')
-  , nano    = require('nano')(process.env.CLOUDANT_URL)
+	, nano = require('nano')('http://localhost:5984')
+  // , nano    = require('nano')(process.env.CLOUDANT_URL)
   // , app     = module.exports = express.createServer()
   , db_name = "test"
   , db      = nano.use(db_name);
